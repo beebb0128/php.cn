@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label>Comment Block</label>
+<input type="text" class="comment-block">
+<ul class="comment-list"></ul>
+
+<img src="1.png">
+<script>
+    var comment = document.querySelector(".comment-block");
+    var list = document.querySelector(".comment-list");
+
+    comment.addEventListener('keypress', addComment, false);
+
+    function addComment(e) {
+        console.log(e);
+        if (e.key === 'Enter') {
+            //Create a li element
+            var items = document.createElement('li');
+
+            //get comment text and input to the list
+            items.innerHTML = comment.value + '&nbsp;<button>Delete</button>';
+
+            //Append text to li list beginning
+            if (list.childElementCount === 0) {
+                list.appendChild(items);
+            } else {
+                list.insertBefore(items, list.firstElementChild);
+            }
+
+            //clear comment value
+            comment.value = '';
+        }
+    }
+
+    //delete comment
+    list.addEventListener('click', delComment, false);
+
+    function delComment(evt) {
+        if (confirm('test')) {
+            console.log(this);
+            console.log(evt.target);
+            this.removeChild(evt.target.parentElement);
+        }
+    }
+</script>
+</body>
+</html>
