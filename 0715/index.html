@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*body{*/
+        /*height: 5000px;*/
+        /*}*/
+        .container {
+            height: 4430px;
+            width: 1080px;
+            margin: 0 auto;
+            border: 5px solid deepskyblue;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container"></div>
+<script>
+
+    var frag = document.createDocumentFragment();
+
+    //insert img
+    for (var i = 1; i <= 6; i++) {
+        var imgUrl = 'img/' + i + '.jpg';
+        var img = document.createElement('img');
+
+        // set default img
+        img.setAttribute('src', 'images/loading.gif');
+
+        // import real image
+        img.setAttribute('data-src', imgUrl);
+
+        img.setAttribute('style', 'width:1080px;height:720px;margin-top:10px;')
+
+        frag.appendChild(img);
+    }
+    //import the img into DOM
+    document.querySelector('.container').appendChild(frag);
+
+    function lazyLoad() {
+        //get scrollTop value
+        var scrollTop = document.documentElement.scrollTop;
+
+        //get current height
+        var currHeight = document.documentElement.clientHeight;
+
+        //transfer image object to array
+        var ArrImg = Array.from(document.images);
+
+        ArrImg.forEach(function (img) {
+            if (img.offsetTop < (scrollTop + currHeight)) {
+                img.setAttribute('src', img.dataset.src);
+            }
+        })
+    }
+
+    window.addEventListener('scroll', lazyLoad, false);
+    window.addEventListener('load',lazyLoad,false);
+</script>
+
+</body>
+</html>
