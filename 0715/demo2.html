@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style>
+        ul,li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration-color: red;
+            text-decoration-line: underline;
+        }
+        .tab-container {
+            width: 300px;
+            height: 200px;
+        }
+
+        .tab-nav {
+            overflow: hidden;
+        }
+
+        .tab-nav ul li {
+            float: left;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .active {
+            background-color: lightblue;
+        }
+
+        .tab-content .detail{
+            line-height: 30px;
+            min-height: 200px;
+            padding-top: 10px;
+            display: none;
+        }
+
+        .detail.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="tab-container">
+    <!--    tab标签导航-->
+    <div class="tab-nav">
+        <ul>
+            <li class="active" data-index="1">手机</li>
+            <li data-index="2">电脑</li>
+            <li data-index="3">汽车</li>
+        </ul>
+    </div>
+
+    <!--    tab标签对应的内容-->
+    <div class="tab-content">
+        <div class="detail active" data-index="1">
+            <ul>
+                <li><a href="">华为P30手机</a></li>
+                <li><a href="">小米9手机</a></li>
+                <li><a href="">iPhone XR</a></li>
+            </ul>
+        </div>
+        <div class="detail" data-index="2">
+            <ul>
+                <li><a href="">苹果MacBook Pro</a></li>
+                <li><a href="">华为MetaBook Pro</a></li>
+                <li><a href="">小米Air笔记本</a></li>
+            </ul>
+        </div>
+        <div class="detail" data-index="3">
+            <ul>
+                <li><a href="">大众迈腾</a></li>
+                <li><a href="">丰田卡罗拉</a></li>
+                <li><a href="">宝马535</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 获取标签页导航tab,以及可点击的所有标签页<li>,并转为数组对象
+    var tabNav = document.getElementsByClassName('tab-nav').item(0);
+    var tabList = tabNav.firstElementChild.children;
+    var tabArr = Array.prototype.slice.call(tabList, 0);
+console.log(tabNav)
+    // 获取所有详情页,并转为数组对象
+    var detail = document.getElementsByClassName('detail');
+    var detailArr = Array.prototype.slice.call(detail, 0);
+    console.log(detailArr)
+    // 利用事件冒泡机制, 将标签页tab的点击事件委托给父级导航条处理
+    tabNav.addEventListener('click', showDetail, false);
+
+    // 监听标签tab点击事件
+    function showDetail(ev) {
+        //ev.target: 当前被点击的li, ev.currentTarget: 被添加的事件的对象,<div.tab_nav>
+        // console.log(ev.target, ev.currentTarget);
+
+        // 整个操作只需要二步走即可:
+
+        // 1. 清空原导航标签的样式,并设置当前正在被点击的标签页为当前页
+        tabArr.forEach(function (tab) { tab.classList.remove('active') });
+        ev.target.classList.add('active');
+
+        // 2. 清空所在详情页样式,并根据与导航data-index属性的对应关系,显示对应的详情页面
+        detailArr.forEach(function (detail) {detail.classList.remove('active')});
+        detailArr.forEach(function (detail) {
+            // 详情页的index与导航标签的index相同时, 显示该页面
+            if (detail.dataset.index === ev.target.dataset.index) {
+                detail.classList.add('active');
+            }
+        });
+    }
+
+    // 还可以添加鼠标移入监听事件
+    // tabNav.addEventListener('mouseover', showDetail, false);
+</script>
+</body>
+</html>

@@ -4,9 +4,63 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        /*body{*/
-        /*height: 5000px;*/
-        /*}*/
+        ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            display: block;
+            font-size: 24px;
+            margin: 10px 20px;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+        }
+
+        .tab-container {
+            width: 450px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .tab-nav {
+            overflow: hidden;
+        }
+
+        .tab-nav ul li {
+            float: left;
+            font-size: 36px;
+            width: 150px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .tab-nav ul li:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+        .active {
+            background-color: lightblue;
+        }
+
+        .tab-content .detail {
+            line-height: 30px;
+            min-height: 200px;
+            padding-top: 10px;
+            display: none;
+        }
+
+        .detail.active {
+            display: block;
+        }
+
         .container {
             height: 4430px;
             width: 1080px;
@@ -17,48 +71,105 @@
     </style>
 </head>
 <body>
+<div class="tab-container">
+    <div class="tab-nav">
+        <ul>
+            <li class="active" data-index="1">First</li>
+            <li data-index="2">Second</li>
+            <li data-index="3">Third</li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="detail active" data-index="1">
+            <ul>
+                <li><a href="">First tab content</a></li>
+                <li><a href="">First tab content</a></li>
+                <li><a href="">First tab content </a></li>
+            </ul>
+        </div>
+        <div class="detail" data-index="2">
+            <ul>
+                <li><a href="">Second tab content</a></li>
+                <li><a href="">Second tab content</a></li>
+                <li><a href="">Second tab content</a></li>
+            </ul>
+        </div>
+        <div class="detail" data-index="3">
+            <ul>
+                <li><a href="">Third tab content</a></li>
+                <li><a href="">Third tab content</a></li>
+                <li><a href="">Third tab content</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <div class="container"></div>
+
 <script>
+    function partOne() {
+        var frag = document.createDocumentFragment();
+        //insert img
+        for (var i = 1; i <= 6; i++) {
+            var imgUrl = 'img/' + i + '.jpg';
+            var img = document.createElement('img');
 
-    var frag = document.createDocumentFragment();
+            // set default img
+            img.setAttribute('src', 'images/loading.gif');
 
-    //insert img
-    for (var i = 1; i <= 6; i++) {
-        var imgUrl = 'img/' + i + '.jpg';
-        var img = document.createElement('img');
+            // import real image
+            img.setAttribute('data-src', imgUrl);
 
-        // set default img
-        img.setAttribute('src', 'images/loading.gif');
+            img.setAttribute('style', 'width:1080px;height:720px;margin-top:10px;')
 
-        // import real image
-        img.setAttribute('data-src', imgUrl);
+            frag.appendChild(img);
+        }
+        //import the img into DOM
+        document.querySelector('.container').appendChild(frag);
 
-        img.setAttribute('style', 'width:1080px;height:720px;margin-top:10px;')
+        function lazyLoad() {
+            //get scrollTop value
+            var scrollTop = document.documentElement.scrollTop;
 
-        frag.appendChild(img);
+            //get current height
+            var currHeight = document.documentElement.clientHeight;
+
+            //transfer image object to array
+            var ArrImg = Array.from(document.images);
+
+            ArrImg.forEach(function (img) {
+                if (img.offsetTop < (scrollTop + currHeight)) {
+                    img.setAttribute('src', img.dataset.src);
+                }
+            })
+        }
+
+        window.addEventListener('scroll', lazyLoad, false);
+        window.addEventListener('load', lazyLoad, false);
     }
-    //import the img into DOM
-    document.querySelector('.container').appendChild(frag);
 
-    function lazyLoad() {
-        //get scrollTop value
-        var scrollTop = document.documentElement.scrollTop;
+    function partTwo(){
+        //find tab nav section and transfer to array
+        var tabNav = document.querySelectorAll('.tab-nav li');
+        var tabNavArr = Array.from(tabNav);
+        console.log(tabNavArr)
+        //find tab content section and transfer to array
+        var tabContent = document.querySelectorAll('.tab-content .detail');
+        var tabContentArr = Array.from(tabContent);
+        console.log(tabContentArr)
 
-        //get current height
-        var currHeight = document.documentElement.clientHeight;
+        document.querySelector('.tab-nav').addEventListener('click',show,false);
 
-        //transfer image object to array
-        var ArrImg = Array.from(document.images);
-
-        ArrImg.forEach(function (img) {
-            if (img.offsetTop < (scrollTop + currHeight)) {
-                img.setAttribute('src', img.dataset.src);
-            }
-        })
+        function show(evt) {
+            console.log(this)
+            console.log(evt.target)
+            console.log(tabNavArr.classList)
+        }
     }
 
-    window.addEventListener('scroll', lazyLoad, false);
-    window.addEventListener('load',lazyLoad,false);
+    partOne();
+    partTwo();
 </script>
 
 </body>
