@@ -3,48 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .main {
+            padding: 40px;
+            max-width: 400px;
+            margin: 100px auto;
+            border: 10px solid #2e4988;
+            background-color: #54cbf9;
+            color: white;
+            border-radius: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .detail {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 24px;
+        }
+
+        label, .comment-block {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #username{
+            line-height: 20px;
+            padding: 5px;
+        }
+
+        textarea {
+            min-width: 300px;
+            height: 150px;
+            margin: 0 auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #00a3d9;
+            color: white;
+            text-transform: uppercase;
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        button:hover {
+            background-color: #34bd38;
+        }
+
+        p {
+            font-size: 28px;
+            line-height: 28px;
+            border-bottom: 2px solid #2e4988;
+        }
+
+        li {
+            list-style: none;
+            padding: 20px 0;
+            border-bottom: 1px solid blue;
+        }
+
+        li span {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding-right: 20px;
+        }
+    </style>
 </head>
 <body>
-<label>Comment Block</label>
-<input type="text" class="comment-block">
-<ul class="comment-list"></ul>
+<form class="main" action="index.html">
+    <div class="detail">
+        <label for="username">Please enter your username and gender:</label>
+        <input type="text" id="username" autofocus placeholder="Username" required>
+        <input type="radio" class="gender" value="Male" name="gender" checked>Male
+        <input type="radio" class="gender" value="Female" name="gender">Female
+    </div>
 
-<img src="1.png">
+    <label for="comment-block">Comment Block</label>
+    <textarea class="comment-block" id="comment-block" placeholder="leave your message here:"></textarea>
+    <button type="submit" class="submit">Submit</button>
+    <button type="reset">Reset</button>
+
+    <p>Comment List</p>
+    <ul class="comment-list"></ul>
+</form>
+
+
 <script>
+    //find comment block
     var comment = document.querySelector(".comment-block");
+
+    //find username
+    var userName = document.querySelector("#username");
+
+    //find gender
+    var userGender = document.querySelector(".gender");
+
+    //find message area
     var list = document.querySelector(".comment-list");
 
-    comment.addEventListener('keypress', addComment, false);
+    //find submit Button
+    var submitBtn = document.querySelector(".submit");
 
-    function addComment(e) {
-        console.log(e);
-        if (e.key === 'Enter') {
-            //Create a li element
-            var items = document.createElement('li');
+    submitBtn.addEventListener('click', addComment, false);
 
-            //get comment text and input to the list
-            items.innerHTML = comment.value + '&nbsp;<button>Delete</button>';
+    function addComment(evt) {
+        console.log(evt);
+        //Create a li element
+        var items = document.createElement('li');
+        //get comment text and input to the list
+        items.innerHTML = '<div>' +
+            '<span>User:' + userName.value + '</span>' +
+            '<span>Gender:' + userGender.value + '</span>' +
+            '<div>Comment:' + comment.value + '</div>' +
+            '</div>' +
+            '<button style="margin-top: 20px;margin-bottom:0">Delete</button>';
 
-            //Append text to li list beginning
-            if (list.childElementCount === 0) {
-                list.appendChild(items);
-            } else {
-                list.insertBefore(items, list.firstElementChild);
-            }
-
-            //clear comment value
-            comment.value = '';
+        //Append text to li list beginning
+        if (list.childElementCount === 0) {
+            list.appendChild(items);
+        } else {
+            list.insertBefore(items, list.firstElementChild);
         }
+        evt.preventDefault();
+        //clear form value
+        userName.value = '';
+        userGender.value = '';
+        comment.value = '';
     }
 
     //delete comment
     list.addEventListener('click', delComment, false);
 
     function delComment(evt) {
-        if (confirm('test')) {
+        var confirmMsg = confirm('Are you sure to delete this comment?');
+        if (confirmMsg === true) {
             console.log(this);
             console.log(evt.target);
             this.removeChild(evt.target.parentElement);
+        } else {
+            evt.preventDefault();
         }
     }
 </script>

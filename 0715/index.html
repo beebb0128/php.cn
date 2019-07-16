@@ -149,22 +149,34 @@
         window.addEventListener('load', lazyLoad, false);
     }
 
-    function partTwo(){
+    function partTwo() {
         //find tab nav section and transfer to array
         var tabNav = document.querySelectorAll('.tab-nav li');
         var tabNavArr = Array.from(tabNav);
-        console.log(tabNavArr)
+
         //find tab content section and transfer to array
         var tabContent = document.querySelectorAll('.tab-content .detail');
         var tabContentArr = Array.from(tabContent);
-        console.log(tabContentArr)
 
-        document.querySelector('.tab-nav').addEventListener('click',show,false);
+        document.querySelector('.tab-nav').addEventListener('click', show, false);
 
         function show(evt) {
-            console.log(this)
-            console.log(evt.target)
-            console.log(tabNavArr.classList)
+            //action in tab-nav
+            tabNavArr.forEach(function (tab) {
+                tab.classList.remove('active')
+
+            });
+            evt.target.classList.add('active');
+
+            tabContentArr.forEach(function (content) {
+                content.classList.remove('active');
+            });
+
+            tabContentArr.forEach(function (content) {
+                if (content.dataset.index === evt.target.dataset.index) {
+                    content.classList.add('active');
+                }
+            });
         }
     }
 

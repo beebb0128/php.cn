@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <title>选项卡</title>
     <style>
-        ul,li {
+        ul, li {
             margin: 0;
             padding: 0;
             list-style: none;
         }
+
         a {
             text-decoration: none;
         }
+
         a:hover {
             text-decoration-color: red;
             text-decoration-line: underline;
         }
+
         .tab-container {
             width: 300px;
             height: 200px;
@@ -38,7 +41,7 @@
             background-color: lightblue;
         }
 
-        .tab-content .detail{
+        .tab-content .detail {
             line-height: 30px;
             min-height: 200px;
             padding-top: 10px;
@@ -92,7 +95,7 @@
     var tabNav = document.getElementsByClassName('tab-nav').item(0);
     var tabList = tabNav.firstElementChild.children;
     var tabArr = Array.prototype.slice.call(tabList, 0);
-console.log(tabNav)
+    console.log(tabNav)
     // 获取所有详情页,并转为数组对象
     var detail = document.getElementsByClassName('detail');
     var detailArr = Array.prototype.slice.call(detail, 0);
@@ -108,11 +111,15 @@ console.log(tabNav)
         // 整个操作只需要二步走即可:
 
         // 1. 清空原导航标签的样式,并设置当前正在被点击的标签页为当前页
-        tabArr.forEach(function (tab) { tab.classList.remove('active') });
+        tabArr.forEach(function (tab) {
+            tab.classList.remove('active')
+        });
         ev.target.classList.add('active');
 
         // 2. 清空所在详情页样式,并根据与导航data-index属性的对应关系,显示对应的详情页面
-        detailArr.forEach(function (detail) {detail.classList.remove('active')});
+        detailArr.forEach(function (detail) {
+            detail.classList.remove('active')
+        });
         detailArr.forEach(function (detail) {
             // 详情页的index与导航标签的index相同时, 显示该页面
             if (detail.dataset.index === ev.target.dataset.index) {
