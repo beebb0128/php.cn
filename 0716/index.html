@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax-GET</title>
+</head>
+<body>
+<label for="user-id">输入用户ID:</label>
+<input type="text" id="user-id" name="user_id" autofocus>
+<p id="tips"></p>
+
+<script>
+    var input = document.getElementById('user-id');
+
+    var tips = document.getElementById('tips');
+
+    var request = new XMLHttpRequest();
+
+    input.addEventListener('keypress', getUserInfo, false);
+
+    function getUserInfo(ev) {
+        if (ev.key === 'Enter') {
+            // 根据用户输入的数据进行判断
+            switch (true) {
+
+                // 如果没有输入查询条件
+                case input.value.length === 0:
+                    tips.innerHTML = '<span style="color: red">ID不能为空</span>';
+                    return false;
+
+                // 检测输入的是否是整数
+                case isNaN(input.value):
+                    tips.innerHTML = '<span style="color: red">ID必须是整数</span>';
+                    return false;
+
+                // 当输入全法数据后, 执行Ajax异步调用
+                default:
+                    // 监听成功回调
+                    request.addEventListener('readystatechange', successCallback, false);
+
+                    // 配置参数
+                    // encodeURIComponent():对值中的非法字符进行编码,如空格等,解码:decodeURIComponent()
+                    var data = encodeURIComponent(input.value);
+                    request.open('GET', 'php/user_info.php?user_id='+data, true);
+
+                    // 发送请求
+                    request.send(null);
+            }
+        }
+    }
+
+    // 成功回调
+    function successCallback() {
+        // 当Ajax对象的readyState状态属性变更为4时, 表示请求成功并返回了数据
+        if (request.readyState === 4) {
+            // 获取页面元素,并将数据渲染到DOM元素中
+            // console.log(request.responseText);
+            tips.innerHTML = request.responseText;
+
+        }
+    }
+
+    // 用户更新ID时, 清空提示信息, 提升用户体验
+    input.addEventListener('input', function () {
+        tips.innerHTML = null;
+    }, false);
+
+
+</script>
+</body>
+</html>
