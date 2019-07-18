@@ -138,7 +138,7 @@
     // Ajax request success
     function successCallback(evt) {
         if (request.readyState === 4) {
-            console.log(request)
+            console.log(request.responseText)
             var result = document.createElement('div');
             result.innerHTML = request.responseText;
             loginForm.appendChild(result);
