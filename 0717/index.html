@@ -128,7 +128,6 @@
         //use Formdata to store data
         var data = new FormData(loginForm);
 
-        console.log(data)
         //ajax step four -- send request
         request.send(data);
 
@@ -139,6 +138,7 @@
     // Ajax request success
     function successCallback(evt) {
         if (request.readyState === 4) {
+            console.log(request)
             var result = document.createElement('div');
             result.innerHTML = request.responseText;
             loginForm.appendChild(result);
