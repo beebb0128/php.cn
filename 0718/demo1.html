@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery基本操作</title>
+    <style>
+        .bigger {
+            font-size: 2rem;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+
+<h1>jQuery</h1>
+<ul>
+    <li>jQuery 是一个 JavaScript 库</li>
+    <li>jQuery 极大地简化了 JavaScript 编程</li>
+    <li>jQuery 很容易学习</li>
+</ul>
+
+<hr>
+
+<label for="user_id">用户ID</label>
+<input type="text" name="user_id" id="user_id" value="1">
+<button>查询</button>
+
+<!--加载jQuery-->
+<script src="jquery.js"></script>
+
+<script>
+
+    // 1. 基本语法: 将jQuery代码写到$()的回调参数中
+    $(function () {
+        // 2. 选择器: $(selector)
+        var list = $('li');
+        console.log( list ); // jQuery默认返回一个集合, 而不是一个元素
+        // each()类似于原生的forEach(),可以遍历一个对象集合
+        list.each(function (key, value) {
+            // 遍历的时候,自动将jQuery对象转为原生的DOM对象
+            console.log(key, value);
+
+            // 选择第二个li,给它添加一个class属性
+            if (key === 1) {
+                value.setAttribute('class', 'active');
+            }
+        });
+
+        /************************************************/
+
+        // 3. 属性操作: attr()
+        // 将原生的DOM对象转为jQuery对象才可以用jQuery对象的方法
+        var firstLi = document.getElementsByTagName('li').item(0);
+        console.log( firstLi );
+        // 使用$()函数,也叫工厂函数,可以将一个原生的DOM对象转为jQuery对象
+        var item1 = $(firstLi);
+        console.log(item1);
+        item1.attr('class', 'red');
+
+        // $()的参数支持css选择器, 可以简化一下:
+        item1.attr('id', 'first-item');
+
+        /************************************************/
+
+        // 4. class操作: addClass()
+        // 将最后一个li,加大加粗
+        var lastItem = $('li:last-of-type')
+        lastItem.addClass('bigger');
+
+        /************************************************/
+
+        // 5. css操作: css({...}), 内联样式
+        // 将第二个li文本前景色设置为红色
+        var item2 = $('li:nth-of-type(2)');
+        item2.css('color', 'red');
+        // css()接受一个对象, 可同时设置多个样式规则
+        $('h1').css({
+            'color': 'green',
+            'background-color': 'yellow',
+            'border': '1px solid black'
+        });
+
+        /************************************************/
+
+        // 6. 内容操作
+        // 6.1 text(): 获取与设置文本, 与原生的innerText功能相同
+        var firstItem = $('li:first-of-type');
+        console.log(firstItem.text());
+        firstItem.text('这是一段新的内容');
+        console.log(firstItem.text());
+
+        // 6.2: html(),与innerHTML相同,可以解析文本中html代码
+        $('li:nth-of-type(3)').html('JavaScript是通用的<span style="color: red">前端编程</span>语言');
+
+        // 6.3: val(), 获取表单控件的值, 也ele.value功能相同
+        var input = $('input');
+        // 获取表单控件的值
+        console.log( input.val() );
+        // 传参, 会更新控件的值
+        input.val(200);
+        console.log( input.val() );
+
+        /************************************************/
+
+        // 7. DOM操作
+        // 遍历: parent(), children(), find(), next(), prev()
+        // 操作: append(),prepend(), after(), before()
+        // 过滤: first(), last(), eq(), filter(), not()
+
+        // parent(): 获取父元素, 等价于: parentElement
+        console.log( firstItem.parent() );
+        // append()插入一个新列表, 等价于: appendChild()
+        firstItem.parent().append('<li>jQuery的原则是写得更少,而做得更多</li>');
+        // prepend(), 等价于 insertBefore()
+        firstItem.parent().prepend('<li><strong>jQuery</strong>, 我来了</li>');
+        // eq(), last(), first()
+        $('li').first().css('background-color', 'lightgreen');
+        $('li').last().css('background-color', 'lightgreen');
+        $('li').eq(2).css('background-color', 'lightgreen');    // 从0开始
+        // filter(), 返回有class='red'的元素
+        $('li').filter('.red').css('background-color', 'lightblue');
+
+        /************************************************/
+
+        // 8. 事件
+        // 8.1 快捷方法
+        $('li').first().click(function () {
+            console.log('点击的是第一个,返回内容是:',$(this).text());
+        });
+        // 8.2 标准方式
+        $('li').last().on('click', function () {
+            console.log('点击的是最后一个,返回内容是:',$(this).text());
+
+        });
+
+        // 9. Ajax方法
+        // $.ajax({
+        //     // 请求类型
+        //     type: 'POST',
+        //
+        //     // 请求的服务器处理程序: url
+        //     url: 'get_data.php',
+        //
+        //     // 成功回调
+        //     success: function (index, item, xhr) {
+        //         console.log(item);
+        //     },
+        //
+        //     // 服务器返回的数据类型
+        //     dataType: 'json',
+        //
+        //     // 发送到服务器的数据,默认转为请求字符串/键值对
+        //     data: $('input').val()
+        //
+        // });
+
+
+        $('button').on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: 'get_data.php',
+                success: callback,
+                dataType: 'json',
+                data: 'user_id=' + $('input').val()
+            });
+        });
+
+
+
+        // 使用$.post()简化: $.post(url, data, callback, dataType)
+        /*
+        $('button').on('click',function () {
+            var url = 'get_data.php';
+            var data = 'user_id=' + $('input').val();
+            var dataType = 'json';
+            $.post(url, data, callback, dataType );
+        });
+
+         */
+
+        function callback(data) {
+            console.log('data as below')
+            console.log(data);
+            var result = '';
+            switch (data.status) {
+                case 1:
+                    result += data.message.name + ':  ' + data.message.email;
+                    break;
+                case 0:
+                    result += data.message;
+                    break;
+                default:
+                    result += '未知错误';
+            }
+            $('button').after('<p>').next().html(result);
+        }
+
+        // 清空提示信息
+        $('input').on('input', function () {
+            $('button').next().html('');
+        });
+    });
+
+</script>
+</body>
+</html>

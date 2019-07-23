@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+</head>
+<body>
+
+<h2>Login Form</h2>
+<form action="data.php" name="login" method="post">
+    <p>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" placeholder="UserName:" required>
+    </p>
+    <p>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email" placeholder="example@gmail.com" required>
+    </p>
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="******" required>
+    </p>
+    <!--<p>-->
+    <!--<label for="remember">记住我:</label>-->
+    <!--<select name="remember" id="remember">-->
+    <!--<option value="1" selected>一天</option>-->
+    <!--<option value="7">一星期</option>-->
+    <!--<option value="30">一个月</option>-->
+    <!--</select>-->
+    <!--</p>-->
+    <p>
+        <button type="button" name="submit">Submit</button>
+    </p>
+</form>
+
+
+<script>
+    //get form by name
+    var loginForm = document.forms.namedItem('login');
+
+    //get btn by name
+    var btn = loginForm.submit;
+
+    //ajax step one
+    var request = new XMLHttpRequest();
+
+    loginForm.username.addEventListener('blur', isEmpty, false);
+    loginForm.email.addEventListener('blur', isEmpty, false);
+    loginForm.password.addEventListener('blur', isEmpty, false);
+
+    //check empty input
+    function isEmpty(evt) {
+
+        if (evt.target.value.length === 0) {
+            //check error message exist or not
+            if (evt.target.nextElementSibling === null) {
+
+                //create error message
+                var errMsg = document.createElement('span');
+                errMsg.style.color = 'red';
+
+                switch (evt.target.name) {
+                    case 'username':
+                        errMsg.innerText = 'Username can not be empty';
+                        break;
+                    case 'email':
+                        errMsg.innerText = 'Email can not be empty';
+                        break;
+                    case 'password':
+                        errMsg.innerText = 'Password can not be empty';
+                        break;
+                    default:
+                        errMsg.innerText = 'x';
+                }
+                //show error message
+                evt.target.parentNode.appendChild(errMsg);
+            }
+            //stay in focus until user input content
+            evt.target.focus();
+        }
+    }
+
+    //add input action listener
+    loginForm.username.addEventListener('input', clearMsg, false);
+    loginForm.email.addEventListener('input', clearMsg, false);
+    loginForm.password.addEventListener('input', clearMsg, false);
+
+    function clearMsg(evt) {
+        // check error msg status
+        var tips = evt.target.nextElementSibling;
+        if (tips !== null) {
+            // remove error message
+            tips.parentNode.removeChild(tips);
+        }
+    }
+
+    //add button action listener
+    btn.addEventListener('click', check, false);
+
+    //submit data in ajax
+    function check(evt) {
+        //get all the form data
+        var username = loginForm.username.value;
+        var email = loginForm.email.value;
+        var password = loginForm.password.value;
+
+        //
+        if (username.length === 0 || email.length === 0 || password.length === 0) {
+            // remove submit action
+            evt.target.removeEventListener('click', check, false);
+
+            // auto-focus to first step
+            var blurEvent = new Event('blur');
+            loginForm.username.dispatchEvent(blurEvent);
+            return false;
+        }
+
+
+        //ajax step two
+        request.addEventListener('readystatechange', successCallback, false);
+
+        //ajax step three
+        request.open('POST', 'data.php', true);
+
+        //if using Formdata , don't need to set request header
+        // request.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=utf-8');
+
+        //use Formdata to store data
+        var data = new FormData(loginForm);
+
+        //ajax step four -- send request
+        request.send(data);
+
+        //reset the form
+        loginForm.reset();
+    }
+
+    // Ajax request success
+    function successCallback(evt) {
+        if (request.readyState === 4) {
+            console.log(request.responseText)
+            var result = document.createElement('div');
+            result.innerHTML = request.responseText;
+            loginForm.appendChild(result);
+        }
+    }
+
+</script>
+</body>
