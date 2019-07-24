@@ -1,0 +1,26 @@
+.header {
+    background-color: brown;
+    height: 30px;
+}
+
+.nav li {
+    list-style:none;
+    min-width:80px;
+    line-height: 30px;
+    float: left;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: white;
+}
+.nav {
+    overflow: hidden;
+}
+.footer {
+    height: 30px;
+    background-color: #636363;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+}
