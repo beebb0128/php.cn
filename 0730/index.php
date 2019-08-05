@@ -8,9 +8,11 @@
 //example 1 -> 默認參數
 function example1( $a , $b = 5 ) {
     $c = $a + $b;
-    echo $c.'<hr>';
+    echo $c;
 }
 example1(5);
+
+echo '<hr>';
 
 //example 2
 function example2() {
@@ -21,10 +23,10 @@ function example2() {
     print_r(func_get_args());
     echo 'Sum: ' . array_sum(func_get_args());
 }
-
 example2(1 , 2 , 3 , 4 , 5 , 9);
 
 echo '<hr>';
+
 //example 3 -> 剩餘參數
 function example3( $a , ...$b ) {
     //$a = 5
@@ -33,6 +35,7 @@ function example3( $a , ...$b ) {
 }
 $arr = [ 6 , 7 , 8 ];
 echo 'return:'.example3(5 , ...$arr);
+
 echo '<hr>';
 
 //example 4 調用外部元素  use(value)調用外部的值 // &->傳址->可修改值

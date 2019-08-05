@@ -16,17 +16,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/0730/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="57" column="35" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="demo6.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/0730example/demo6.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="17" selection-start-line="17" selection-end-line="17" selection-end-column="40" />
+            <state relative-caret-position="-369">
+              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
             </state>
           </provider>
         </entry>
@@ -107,9 +98,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="505" />
-    <option name="y" value="6" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="91" />
+    <option name="y" value="19" />
     <option name="width" value="1936" />
     <option name="height" value="980" />
   </component>
@@ -124,11 +115,6 @@
             <path>
               <item name="php.cn" type="b2602c69:ProjectViewProjectNode" />
               <item name="php.cn" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="php.cn" type="b2602c69:ProjectViewProjectNode" />
-              <item name="php.cn" type="462c0819:PsiDirectoryNode" />
-              <item name="0730example" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -196,15 +182,15 @@
       <workItem from="1563951991294" duration="2468000" />
       <workItem from="1564019838020" duration="6362000" />
       <workItem from="1564117002345" duration="4666000" />
-      <workItem from="1564561148209" duration="5265000" />
+      <workItem from="1564561148209" duration="5384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90620000" />
+    <option name="totallyTimeSpent" value="90739000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="505" y="6" width="1936" height="980" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15938166" />
@@ -459,8 +445,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/0730/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="57" column="35" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
+        <state relative-caret-position="-369">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
