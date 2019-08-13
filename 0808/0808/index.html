@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+</head>
+<body>
+<form action="demo5.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="my_file" id="">
+<!--    1M = 1024K = 1048576Byte-->
+    <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+    <button>上传</button>
+</form>
+</body>
+</html>

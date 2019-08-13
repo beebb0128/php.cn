@@ -43,3 +43,4 @@ echo \inc\Test1::get(), '<br>';
 echo \inc\Test2::get(), '<br>';
 echo \inc\Test3::get(), '<br>';
 echo \inc\Test4::get(), '<br>';
+echo \inc\iam666::call(), '<br>';
